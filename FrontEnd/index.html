@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Panel Tools</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== ÉTIQUETTES CLIQUABLES ===== -->
+<div class="etiquette To-Do_List"               onclick="ouvrirPopup('popup-todo')">To-Do List</div>
+<div class="etiquette Minuteur"                 onclick="ouvrirPopup('popup-minuteur')">Minuteur</div>
+<div class="etiquette Meteo"                    onclick="ouvrirPopup('popup-meteo')">Météo</div>
+<div class="etiquette Convertisseur_De_Monnaie" onclick="ouvrirPopup('popup-convertisseur')">Convertisseur</div>
+<div class="etiquette Calculatrice"             onclick="ouvrirPopup('popup-calculatrice')">Calculatrice</div>
+<div class="etiquette Heure_Mondiale"           onclick="ouvrirPopup('popup-horloge')">Heure Mondiale</div>
+<div class="etiquette Moteur_Recherche"         onclick="ouvrirPopup('popup-recherche')">Moteur Recherche</div>
+<div class="etiquette IA"                       onclick="ouvrirPopup('popup-ia')">IA</div>
+<div class="etiquette Note_Rapide"              onclick="ouvrirPopup('popup-notes')">Note Rapide</div>
+<div class="etiquette Generateur_De_MDP"        onclick="ouvrirPopup('popup-mdp')">Générateur MDP</div>
+
+<!-- ===== LOSANGE TITRE ===== -->
+<div class="losange">
+    <span>My Panel<br>Tools</span>
+</div>
+
+<!-- ===== FOND SOMBRE ===== -->
+<div class="overlay" id="overlay" onclick="fermerTout()"></div>
+
+<!-- ===== POPUP : TO-DO LIST ===== -->
+<div class="popup" id="popup-todo">
+    <div class="popup-header">
+        <h2>To-Do List</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+        <div class="input-row">
+            <input id="todo-input" type="text" placeholder="Nouvelle tâche...">
+            <button onclick="ajouterTodo()">+</button>
+        </div>
+        <ul id="todo-liste"></ul>
+    </div>
+</div>
+
+<!-- ===== POPUP : MINUTEUR ===== -->
+<div class="popup" id="popup-minuteur">
+    <div class="popup-header">
+        <h2>Minuteur Pomodoro</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body center">
+        <p id="pomodoro-temps" class="big-time">25:00</p>
+        <div class="btn-row">
+            <button onclick="demarrerPomodoro()">&#x25B6; / Pause</button>
+            <button onclick="resetPomodoro()">Reset</button>
+        </div>
+        <p id="pomodoro-sessions" class="small-info">Sessions : 0</p>
+    </div>
+</div>
+
+<!-- ===== POPUP : MÉTÉO ===== -->
+<div class="popup" id="popup-meteo">
+    <div class="popup-header">
+        <h2>Météo</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+        <div class="input-row">
+            <input id="meteo-ville" type="text" placeholder="Entrez une ville...">
+            <button onclick="chargerMeteo()">Chercher</button>
+        </div>
+        <p id="meteo-temp" class="big-time">--&#176;C</p>
+        <p id="meteo-condition" class="small-info">--</p>
+        <p id="meteo-vent" class="small-info">--</p>
+    </div>
+</div>
+
+<!-- ===== POPUP : CONVERTISSEUR ===== -->
+<div class="popup" id="popup-convertisseur">
+    <div class="popup-header">
+        <h2>Convertisseur</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+
+        <!-- Onglets -->
+        <div class="tabs">
+            <button class="tab-btn actif" onclick="switchTab('argent', this)">Monnaie</button>
+            <button class="tab-btn"       onclick="switchTab('mesure', this)">Mesure</button>
+        </div>
+
+        <!-- Onglet Argent -->
+        <div class="tab-panel actif" id="tab-argent">
+            <input id="conv-montant" type="number" value="100" placeholder="Montant" style="margin-bottom:8px">
+            <div class="input-row">
+                <select id="conv-de">
+                    <option value="EUR">Euro</option>
+                    <option value="USD">Dollar US</option>
+                    <option value="GBP">Livre sterling</option>
+                    <option value="JPY">Yen japonais</option>
+                    <option value="CHF">Franc suisse</option>
+                    <option value="CAD">Dollar canadien</option>
+                    <option value="AUD">Dollar australien</option>
+                    <option value="CNY">Yuan chinois</option>
+                    <option value="MXN">Peso mexicain</option>
+                </select>
+                <span style="font-weight:700">&#8594;</span>
+                <select id="conv-vers">
+                    <option value="USD">Dollar US</option>
+                    <option value="EUR">Euro</option>
+                    <option value="GBP">Livre sterling</option>
+                    <option value="JPY">Yen japonais</option>
+                    <option value="CHF">Franc suisse</option>
+                    <option value="CAD">Dollar canadien</option>
+                    <option value="AUD">Dollar australien</option>
+                    <option value="CNY">Yuan chinois</option>
+                    <option value="MXN">Peso mexicain</option>
+                </select>
+            </div>
+            <button onclick="convertirArgent()" style="width:100%;margin-top:10px">Convertir</button>
+            <p id="conv-resultat" class="resultat-conv" style="margin-top:10px">--</p>
+            <p id="conv-taux" class="small-info"></p>
+        </div>
+
+        <!-- Onglet Mesures -->
+        <div class="tab-panel" id="tab-mesure">
+            <input id="mesure-valeur" type="number" value="1" placeholder="Valeur" style="margin-bottom:8px">
+            <select id="mesure-type" style="margin-bottom:8px">
+                <optgroup label="Distance">
+                    <option value="km-miles">Kilomètres vers Miles</option>
+                    <option value="miles-km">Miles vers Kilomètres</option>
+                    <option value="m-ft">Mètres vers Pieds</option>
+                    <option value="ft-m">Pieds vers Mètres</option>
+                    <option value="cm-in">Centimètres vers Pouces</option>
+                    <option value="in-cm">Pouces vers Centimètres</option>
+                </optgroup>
+                <optgroup label="Volume">
+                    <option value="l-gal">Litres vers Gallons</option>
+                    <option value="gal-l">Gallons vers Litres</option>
+                </optgroup>
+                <optgroup label="Poids">
+                    <option value="kg-lbs">Kilogrammes vers Livres</option>
+                    <option value="lbs-kg">Livres vers Kilogrammes</option>
+                    <option value="g-oz">Grammes vers Onces</option>
+                    <option value="oz-g">Onces vers Grammes</option>
+                </optgroup>
+                <optgroup label="Température">
+                    <option value="c-f">Celsius vers Fahrenheit</option>
+                    <option value="f-c">Fahrenheit vers Celsius</option>
+                    <option value="c-k">Celsius vers Kelvin</option>
+                </optgroup>
+            </select>
+            <button onclick="convertirMesure()" style="width:100%">Convertir</button>
+            <p id="mesure-resultat" class="resultat-conv" style="margin-top:10px">--</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===== POPUP : CALCULATRICE ===== -->
+<div class="popup" id="popup-calculatrice">
+    <div class="popup-header">
+        <h2>Calculatrice</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+        <input id="calc-ecran" readonly placeholder="0" style="font-size:20px;text-align:right;margin-bottom:10px">
+        <div class="calc-grid">
+            <button onclick="calcReset()" class="btn-danger">C</button>
+            <button onclick="calc('(')">(</button>
+            <button onclick="calc(')')">)</button>
+            <button onclick="calcOp('%')">%</button>
+            <button onclick="calc('7')">7</button>
+            <button onclick="calc('8')">8</button>
+            <button onclick="calc('9')">9</button>
+            <button onclick="calcOp('/')">&#247;</button>
+            <button onclick="calc('4')">4</button>
+            <button onclick="calc('5')">5</button>
+            <button onclick="calc('6')">6</button>
+            <button onclick="calcOp('*')">&#215;</button>
+            <button onclick="calc('1')">1</button>
+            <button onclick="calc('2')">2</button>
+            <button onclick="calc('3')">3</button>
+            <button onclick="calcOp('-')">&#8722;</button>
+            <button onclick="calc('0')">0</button>
+            <button onclick="calc('.')">.</button>
+            <button onclick="calcEgal()" class="btn-primary">=</button>
+            <button onclick="calcOp('+')">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== POPUP : HEURE MONDIALE ===== -->
+<div class="popup" id="popup-horloge">
+    <div class="popup-header">
+        <h2>Heure Mondiale</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body center">
+        <select id="horloge-timezone" onchange="mettreAJourHorloge()" style="margin-bottom:14px;width:100%">
+            <option value="Europe/Paris">Paris</option>
+            <option value="America/New_York">New York</option>
+            <option value="America/Los_Angeles">Los Angeles</option>
+            <option value="Asia/Tokyo">Tokyo</option>
+            <option value="Asia/Dubai">Dubaï</option>
+            <option value="Australia/Sydney">Sydney</option>
+            <option value="America/Sao_Paulo">São Paulo</option>
+        </select>
+        <p id="horloge-heure" class="big-time">--:--:--</p>
+        <p id="horloge-date" class="small-info">--</p>
+    </div>
+</div>
+
+<!-- ===== POPUP : MOTEUR DE RECHERCHE ===== -->
+<div class="popup" id="popup-recherche">
+    <div class="popup-header">
+        <h2>Moteur de Recherche</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+        <div class="input-row">
+            <input id="recherche-input" type="text" placeholder="Rechercher...">
+            <button onclick="lancerRecherche()">Go</button>
+        </div>
+        <div id="recherche-resume" class="small-info" style="margin-top:8px"></div>
+        <ul id="recherche-resultats"></ul>
+    </div>
+</div>
+
+<!-- ===== POPUP : MINI IA ===== -->
+<div class="popup" id="popup-ia">
+    <div class="popup-header">
+        <h2>Mini IA</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+        <div id="ia-historique" class="chat-box"></div>
+        <div class="input-row" style="margin-top:8px">
+            <input id="ia-question" type="text" placeholder="Pose une question...">
+            <button onclick="poserQuestion()">Envoyer</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== POPUP : NOTES RAPIDES ===== -->
+<div class="popup" id="popup-notes">
+    <div class="popup-header">
+        <h2>Notes Rapides</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+        <textarea id="notes-texte" placeholder="Écris tes notes ici..." oninput="sauvegarderNotes()"></textarea>
+        <p class="small-info" style="margin-top:6px">Sauvegarde automatique</p>
+    </div>
+</div>
+
+<!-- ===== POPUP : GÉNÉRATEUR MDP ===== -->
+<div class="popup" id="popup-mdp">
+    <div class="popup-header">
+        <h2>Générateur de MDP</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+        <div class="input-row">
+            <span class="small-info">Longueur :</span>
+            <input id="mdp-longueur" type="range" min="8" max="32" value="16"
+                   oninput="document.getElementById('mdp-longueur-val').textContent=this.value">
+            <span id="mdp-longueur-val" style="font-weight:700;min-width:22px">16</span>
+        </div>
+        <div class="checkbox-row">
+            <label><input type="checkbox" id="mdp-majuscules" checked> A-Z</label>
+            <label><input type="checkbox" id="mdp-chiffres"   checked> 0-9</label>
+            <label><input type="checkbox" id="mdp-symboles"   checked> !@#</label>
+        </div>
+        <button onclick="genererMotDePasse()" style="width:100%;margin-top:10px">Générer</button>
+        <div class="input-row" style="margin-top:8px">
+            <input id="mdp-resultat" readonly placeholder="Ton mot de passe...">
+            <button onclick="copierMotDePasse()">Copier</button>
+        </div>
+    </div>
+</div>
+
+<script src="java.js"></script>
+</body>
+</html>
