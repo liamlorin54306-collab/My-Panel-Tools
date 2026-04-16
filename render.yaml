@@ -2,6 +2,6 @@ services:
   - type: web
     name: my-panel-tools
     env: python
-    buildCommand: pip install -r requirements.txt && pip install gunicorn
-    startCommand: gunicorn app:app
+    buildCommand: pip install -r requirements.txt
+    startCommand: python backend/app.py
     plan: free
