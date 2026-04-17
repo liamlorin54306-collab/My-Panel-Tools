@@ -197,6 +197,42 @@ async function chargerMeteo() {
     }
 }
 
+async function chargerMeteo() {
+    const ville = document.getElementById('meteo-ville').value.trim() || 'Paris'
+
+    document.getElementById('meteo-temp').textContent = '...'
+
+    try {
+        // 1. GEO
+        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${ville}&count=1&language=fr`)
+        const geo = await geoRes.json()
+
+        if (!geo.results) {
+            document.getElementById('meteo-temp').textContent = 'Ville introuvable'
+            return
+        }
+
+        const lat = geo.results[0].latitude
+        const lon = geo.results[0].longitude
+
+        // 2. METEO
+        const meteoRes = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+        )
+        const meteo = await meteoRes.json()
+
+        const temp = meteo.current_weather.temperature
+        const vent = meteo.current_weather.windspeed
+
+        document.getElementById('meteo-temp').textContent = `${temp}°C`
+        document.getElementById('meteo-condition').textContent = 'Temps actuel'
+        document.getElementById('meteo-vent').textContent = `Vent : ${vent} km/h`
+
+    } catch {
+        document.getElementById('meteo-temp').textContent = 'Erreur météo'
+    }
+}
+
 // ============================================================
 //  MINI IA — via Flask → Groq API
 // ============================================================
