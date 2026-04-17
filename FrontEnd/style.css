@@ -404,3 +404,55 @@ h2.IA:hover, h2.Note_Rapide:hover, h2.Generateur_De_MDP:hover {
 .popup input[type="range"] {
     flex: 1; width: auto; padding: 0; border: none; background: none; cursor: pointer;
 }
+
+
+
+@media (max-width: 768px) {
+
+    /* Layout global */
+    body {
+        padding: 10px;
+    }
+
+    /* Tes blocs / cartes */
+    .card, .popup, .container {
+        width: 100% !important;
+        margin: 10px 0;
+    }
+
+    /* Boutons */
+    button {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    /* Inputs */
+    input, select {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    /* Flex → colonne */
+    .row, .flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Texte */
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
