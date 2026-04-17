@@ -39,6 +39,14 @@ def get_meteo():
             f'&current=temperature_2m,wind_speed_10m,weather_code'
         ).json()
 
+        meteo = requests.get(
+    f'https://api.open-meteo.com/v1/forecast'
+    f'?latitude={lat}&longitude={lon}'
+    f'&current=temperature_2m,wind_speed_10m,weather_code'
+).json()
+
+print("METEO BRUTE:", meteo)
+
         current = meteo.get('current')
         if not current:
             return jsonify({'erreur': 'Données météo indisponibles'}), 500
