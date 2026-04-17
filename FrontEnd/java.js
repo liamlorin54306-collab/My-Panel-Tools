@@ -2,7 +2,7 @@
 //  DASHBOARD - java.js
 // ============================================================
 
-const API = 'https://dashboard-tools.onrender.com/api'
+const API = 'https://my-panel-tools.onrender.com/api'
 
 // ============================================================
 //  SYSTÈME DE POPUPS
