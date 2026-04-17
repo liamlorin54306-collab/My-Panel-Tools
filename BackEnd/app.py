@@ -22,6 +22,7 @@ def get_meteo():
     ville = request.args.get('ville', 'Paris')
 
     try:
+        # ---------------- GEOLOCALISATION ----------------
         geo = requests.get(
             f'https://geocoding-api.open-meteo.com/v1/search?name={ville}&count=1&language=fr'
         ).json()
@@ -33,39 +34,60 @@ def get_meteo():
         lon = geo['results'][0]['longitude']
         nom = geo['results'][0]['name']
 
+        # ---------------- METEO ----------------
         meteo = requests.get(
             f'https://api.open-meteo.com/v1/forecast'
             f'?latitude={lat}&longitude={lon}'
             f'&current=temperature_2m,wind_speed_10m,weather_code'
         ).json()
 
+        # Compatibilité ancienne / nouvelle API
         current = meteo.get('current') or meteo.get('current_weather')
+
         if not current:
+            print("DEBUG METEO:", meteo)
             return jsonify({'erreur': 'Données météo indisponibles'}), 500
 
+        # 🔥 FIX PRINCIPAL (bien indenté)
         temp = current.get('temperature_2m') or current.get('temperature')
         vent = current.get('wind_speed_10m') or current.get('windspeed')
         code = current.get('weather_code') or current.get('weathercode')
 
+        # Sécurité si valeurs absentes
+        if temp is None or vent is None:
+            print("DEBUG CURRENT:", current)
+            return jsonify({'erreur': 'Données météo incomplètes'}), 500
+
+        # ---------------- CONDITIONS ----------------
         conditions = {
             0: 'Ciel dégagé',
             1: 'Principalement dégagé',
             2: 'Partiellement nuageux',
             3: 'Couvert',
             45: 'Brouillard',
+            48: 'Brouillard givrant',
+            51: 'Bruine légère',
+            53: 'Bruine modérée',
+            55: 'Bruine dense',
             61: 'Pluie légère',
             63: 'Pluie modérée',
             65: 'Pluie forte',
             71: 'Neige légère',
-            80: 'Averses',
-            95: 'Orage'
+            73: 'Neige modérée',
+            75: 'Neige forte',
+            80: 'Averses légères',
+            81: 'Averses modérées',
+            82: 'Averses fortes',
+            95: 'Orage',
+            96: 'Orage avec grêle',
+            99: 'Orage violent'
         }
 
         return jsonify({
             'ville': nom,
-            'temperature': temp,
-            'vent': vent,
-            'condition': conditions.get(code, 'Météo inconnue')
+            'temperature': round(temp, 1),
+            'vent': round(vent, 1),
+            'condition': conditions.get(code, f'Code {code}')
         })
 
     except Exception as e:
