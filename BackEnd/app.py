@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+import requests
 import os
 
 app = Flask(__name__)
@@ -81,6 +82,9 @@ def get_ia():
     if not message:
         return jsonify({'erreur': 'Message vide'}), 400
 
+    if not GROQ_API_KEY:
+        return jsonify({'reponse': 'Clé API manquante'}), 500
+
     try:
         response = requests.post(
             'https://api.groq.com/openai/v1/chat/completions',
@@ -91,46 +95,26 @@ def get_ia():
             json={
                 'model': 'llama-3.3-70b-versatile',
                 'messages': [
-                    {
-                        'role': 'system',
-                        'content': (
-                            'Tu es un assistant utile et concis intégré dans un dashboard personnel. '
-                            'Réponds en français, de manière courte et claire. '
-                            'Maximum 3 phrases sauf si on te demande une explication détaillée.'
-                        )
-                    },
-                    {
-                        'role': 'user',
-                        'content': message
-                    }
+                    {"role": "system", "content": "Réponds en français, court."},
+                    {"role": "user", "content": message}
                 ],
                 'max_tokens': 300
             }
         )
 
-        # 🔍 Debug important
         print("STATUS:", response.status_code)
-        print("REPONSE BRUTE:", response.text)
+        print("REPONSE:", response.text)
 
-        # ❌ Si l'API répond avec une erreur HTTP
         if response.status_code != 200:
-            return jsonify({
-                'reponse': f"Erreur API Groq ({response.status_code})"
-            }), 500
+            return jsonify({'reponse': f'Erreur API ({response.status_code})'}), 500
 
         data = response.json()
-
-        # ❌ Si la réponse n'a pas le bon format
-        if 'choices' not in data:
-            return jsonify({
-                'reponse': f"Réponse invalide API : {data}"
-            }), 500
-
         texte = data['choices'][0]['message']['content']
 
         return jsonify({'reponse': texte})
 
     except Exception as e:
+        print("ERREUR IA:", e)
         return jsonify({'reponse': f'Erreur serveur : {str(e)}'}), 500
 
 
