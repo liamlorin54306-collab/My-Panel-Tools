@@ -1,458 +1,70 @@
-/*========= Etiquettes =========*/
+body {
+    gap: 20px;
+    padding: 20px;
+}
 
-.To-Do_List {
-    border: solid 7px  Black;
-    border-radius: 30px;
-    top: 10%; left: 38%; transform: translateX(-50%);position: absolute;
-    padding-right: 65px;
-    padding-left: 65px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+/* ===== CARDS ===== */
+.card {
+    background: #1e293b;
+    border-radius: 20px;
+    padding: 20px;
     cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-.Minuteur {
-    border: solid 7px  rgb(0, 0, 0);
-    border-radius: 30px;
-    top: 25%; left: 25%; transform: translateX(-50%);position: absolute;
-    padding-right: 70px;
-    padding-left: 70px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
+.card:hover {
+    transform: translateY(-5px);
+    background: #334155;
 }
 
-.Meteo {
-    border: solid 7px  Black;
-    border-radius: 30px;
-    top: 40%; left: 12%; transform: translateX(-50%);position: absolute;
-    padding-right: 90px;
-    padding-left: 90px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
+.card h2 {
+    margin: 0;
+    font-size: 18px;
 }
 
-.Convertisseur_De_Monnaie {
-    border: solid 7px  Black;
-    border-radius: 30px;
-    top: 55%; left: 25%; transform: translateX(-50%); position: absolute;
-    padding-right: 50px;
-    padding-left: 50px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-.Calculatrice {
-    border: solid 7px  black;
-    border-radius: 30px;
-    top: 70%; left: 38%; transform: translateX(-50%);position: absolute;
-    padding-right: 60px;
-    padding-left: 60px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-.Heure_Mondiale {
-    border: solid 7px  rgb(0, 0, 0);
-    border-radius: 30px;
-    top: 10%; left: 62%; transform: translateX(-50%);position: absolute;
-    padding-right: 40px;
-    padding-left: 40px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-.Moteur_Recherche {
-    border: solid 7px  rgb(0, 0, 0);
-    border-radius: 30px;
-    top: 25%; left: 75%; transform: translateX(-50%);position: absolute;
-    padding-right: 25px;
-    padding-left: 25px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-.IA {
-    border: solid 7px  rgb(0, 0, 0);
-    border-radius: 30px;
-    top: 40%; left: 88%; transform: translateX(-50%);position: absolute;
-    padding-right: 110px;
-    padding-left: 110px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-.Note_Rapide {
-    border: solid 7px  Black;
-    border-radius: 30px;
-    top: 55%; left: 75%; transform: translateX(-50%); position: absolute;
-    padding-right: 60px;
-    padding-left: 60px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-.Generateur_De_MDP {
-    border: solid 7px  black;
-    border-radius: 30px;
-    top: 70%; left: 62%; transform: translateX(-50%);position: absolute;
-    padding-right: 15px;
-    padding-left: 15px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-/* Effet survol bleu sur les étiquettes */
-h2.To-Do_List:hover, h2.Minuteur:hover, h2.Meteo:hover,
-h2.Convertisseur_De_Monnaie:hover, h2.Calculatrice:hover,
-h2.Heure_Mondiale:hover, h2.Moteur_Recherche:hover,
-h2.IA:hover, h2.Note_Rapide:hover, h2.Generateur_De_MDP:hover {
-    background: #3498db;
-    color: white;
-    border-color: #3498db;
-}
-
-/*========== TITRE ==========*/
-
-.losange {
-    border-radius: 50px;
-    width: 200px;
-    height: 200px;
-    background: #3498db;
-    transform: rotate(45deg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 30%; left: 42%; position: absolute;
-    pointer-events: none;
-}
-
-/* CORRECTION BUG TEXTE DIAGONAL :
-   Avant c'était juste "span" ce qui s'appliquait à TOUS les spans de la page.
-   Maintenant on cible uniquement le span à l'intérieur du losange. */
-.losange span {
-    transform: rotate(-45deg);
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    line-height: 1.4;
-    font-size: 15px;
-}
-
-/*========== OVERLAY ==========*/
-
+/* ===== POPUP ===== */
 .overlay {
-    display: none;
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
 }
-
-/*========== POPUPS ==========*/
 
 .popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border: 3px solid black;
+    background: #1e293b;
+    padding: 20px;
     border-radius: 20px;
-    width: 360px;
-    max-width: 92vw;
-    z-index: 200;
-    font-family: 'Segoe UI', sans-serif;
+    width: 90%;
+    max-width: 400px;
 }
 
-.popup-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px 10px;
-    border-bottom: 2px solid black;
-}
-
-.popup-header h2 {
-    font-size: 16px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: static;
+button {
+    margin-top: 10px;
+    padding: 10px;
     border: none;
-    padding: 0;
-    cursor: default;
-    background: none;
-    color: black;
-    transform: none;
-}
-
-.popup-header h2:hover {
-    background: none !important;
-    color: black !important;
-    border-color: transparent !important;
-}
-
-.fermer {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #888;
-    line-height: 1;
-    padding: 0 4px;
-}
-.fermer:hover { color: #e74c3c; }
-
-.popup-body {
-    padding: 16px 18px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.popup-body.center {
-    align-items: center;
-    text-align: center;
-}
-
-/*========== ONGLETS CONVERTISSEUR ==========*/
-
-.tabs {
-    display: flex;
-    gap: 0;
-    border: 1.5px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 4px;
-}
-
-.tab-btn {
-    flex: 1;
-    padding: 7px 4px;
-    border: none;
-    border-radius: 0;
-    background: #f5f5f5;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    color: #666;
-    transition: background 0.15s, color 0.15s;
-}
-
-.tab-btn.actif {
-    background: #3498db;
+    border-radius: 10px;
+    background: #3b82f6;
     color: white;
+    cursor: pointer;
 }
 
-.tab-panel { display: none; }
-.tab-panel.actif { display: block; }
-
-/*========== ÉLÉMENTS FORMULAIRE ==========*/
-
-.popup input[type="text"],
-.popup input[type="number"],
-.popup input[readonly],
-.popup select,
-.popup textarea {
+input {
     width: 100%;
-    padding: 8px 10px;
-    border: 1.5px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: 'Segoe UI', sans-serif;
-    background: #fafafa;
-    outline: none;
-    box-sizing: border-box;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: none;
 }
 
-.popup input:focus,
-.popup select:focus,
-.popup textarea:focus {
-    border-color: #3498db;
-    background: white;
-}
-
-.popup textarea { min-height: 120px; resize: vertical; }
-
-.popup button {
-    padding: 8px 14px;
-    border: 1.5px solid #222;
-    border-radius: 8px;
-    background: white;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Segoe UI', sans-serif;
-    transition: background 0.15s;
-    white-space: nowrap;
-}
-.popup button:hover  { background: #f0f0f0; }
-.popup button:active { transform: scale(0.97); }
-
-.btn-primary { background: #3498db !important; color: white !important; border-color: #3498db !important; }
-.btn-primary:hover { background: #2178b8 !important; }
-.btn-danger  { background: #e74c3c !important; color: white !important; border-color: #e74c3c !important; }
-.btn-danger:hover  { background: #c0392b !important; }
-
-.input-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-.input-row input,
-.input-row select { flex: 1; }
-
-.btn-row {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin: 8px 0;
-}
-
-.big-time {
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-align: center;
-    margin: 8px 0;
-}
-
-.small-info {
-    font-size: 13px;
-    color: #666;
-    text-align: center;
-}
-
-.resultat-conv {
-    font-size: 18px;
-    font-weight: 700;
-    text-align: center;
-    color: #3498db;
-    min-height: 28px;
-}
-
-.calc-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-}
-.calc-grid button { padding: 12px 4px; font-size: 15px; border-radius: 8px; }
-
-#todo-liste {
-    list-style: none;
-    max-height: 180px;
-    overflow-y: auto;
-    padding: 0;
-    margin-top: 4px;
-}
-#todo-liste li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 13px;
-    gap: 8px;
-}
-#todo-liste li button { padding: 2px 7px; font-size: 11px; border-color: #ccc; color: #999; }
-
-#recherche-resultats { list-style: none; max-height: 150px; overflow-y: auto; padding: 0; }
-#recherche-resultats li { padding: 6px 0; border-bottom: 1px solid #eee; font-size: 12px; }
-#recherche-resultats a  { color: #3498db; text-decoration: none; font-weight: 600; display: block; }
-#recherche-resultats p  { color: #666; font-size: 11px; margin-top: 2px; }
-
-.chat-box {
-    max-height: 160px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 4px 0;
-}
-.msg-user {
-    align-self: flex-end;
-    background: #3498db;
-    color: white;
-    padding: 7px 12px;
-    border-radius: 14px 14px 2px 14px;
-    max-width: 85%;
-    font-size: 13px;
-}
-.msg-ia {
-    align-self: flex-start;
-    background: #f0f0f0;
-    color: #222;
-    padding: 7px 12px;
-    border-radius: 14px 14px 14px 2px;
-    max-width: 85%;
-    font-size: 13px;
-}
-
-.checkbox-row { display: flex; gap: 14px; font-size: 13px; align-items: center; }
-.checkbox-row label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
-
-.popup input[type="range"] {
-    flex: 1; width: auto; padding: 0; border: none; background: none; cursor: pointer;
-}
-
-
-
-@media (max-width: 768px) {
-
-    /* Layout global */
-    body {
-        padding: 10px;
-    }
-
-    /* Tes blocs / cartes */
-    .card, .popup, .container {
-        width: 100% !important;
-        margin: 10px 0;
-    }
-
-    /* Boutons */
-    button {
-        width: 100%;
-        font-size: 16px;
-        padding: 12px;
-    }
-
-    /* Inputs */
-    input, select {
-        width: 100%;
-        font-size: 16px;
-    }
-
-    /* Flex → colonne */
-    .row, .flex {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    /* Texte */
-    h1 { font-size: 22px; }
-    h2 { font-size: 18px; }
-
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+    .header {
+        text-align: center;
     }
 }
-
