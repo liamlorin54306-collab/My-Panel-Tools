@@ -195,9 +195,16 @@ def get_recherche():
 
 
 
+# Sert le dashboard quand on arrive sur la page principale
 @app.route("/")
 def home():
-    return "API OK"
+    return send_from_directory('FrontEnd', 'index.html')
+
+# Sert les fichiers CSS et JS automatiquement
+@app.route("/<path:filename>")
+def FrontEnd_files(filename):
+    return send_from_directory('FrontEnd', filename)
+
 
 
 # ============================================================
