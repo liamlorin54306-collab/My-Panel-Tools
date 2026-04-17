@@ -39,21 +39,13 @@ def get_meteo():
             f'&current=temperature_2m,wind_speed_10m,weather_code'
         ).json()
 
-        meteo = requests.get(
-    f'https://api.open-meteo.com/v1/forecast'
-    f'?latitude={lat}&longitude={lon}'
-    f'&current=temperature_2m,wind_speed_10m,weather_code'
-).json()
-
-print("METEO BRUTE:", meteo)
-
-        current = meteo.get('current')
+        current = meteo.get('current') or meteo.get('current_weather')
         if not current:
             return jsonify({'erreur': 'Données météo indisponibles'}), 500
 
-        temp = current.get('temperature_2m')
-        vent = current.get('wind_speed_10m')
-        code = current.get('weather_code')
+        temp = current.get('temperature_2m') or current.get('temperature')
+vent = current.get('wind_speed_10m') or current.get('windspeed')
+code = current.get('weather_code') or current.get('weathercode')
 
         conditions = {
             0: 'Ciel dégagé',
