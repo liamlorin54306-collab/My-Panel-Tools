@@ -1,6 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-import requests
 import os
 
 app = Flask(__name__)
@@ -200,7 +199,7 @@ def home():
     return send_from_directory(FRONTEND_DIR, 'index.html')
 
 @app.route("/<path:filename>")
-def frontend_files(filename):
+def FrontEnd_files(filename):
     return send_from_directory(FRONTEND_DIR, filename)
 
 
