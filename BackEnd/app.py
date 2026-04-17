@@ -22,7 +22,6 @@ def get_meteo():
     ville = request.args.get('ville', 'Paris')
 
     try:
-        # 1. On cherche les coordonnées GPS de la ville
         geo = requests.get(
             f'https://geocoding-api.open-meteo.com/v1/search?name={ville}&count=1&language=fr'
         ).json()
@@ -30,22 +29,28 @@ def get_meteo():
         if not geo.get('results'):
             return jsonify({'erreur': 'Ville introuvable'}), 404
 
-        lat  = geo['results'][0]['latitude']
-        lon  = geo['results'][0]['longitude']
-        nom  = geo['results'][0]['name']
+        lat = geo['results'][0]['latitude']
+        lon = geo['results'][0]['longitude']
+        nom = geo['results'][0]['name']
 
-        # 2. On récupère la météo avec les coordonnées
         meteo = requests.get(
-            f'https://api.open-meteo.com/v1/forecast'
-            f'?latitude={lat}&longitude={lon}'
-            f'&current=temperature_2m,wind_speed_10m,weather_code'
+            'https://api.open-meteo.com/v1/forecast',
+            params={
+                'latitude': lat,
+                'longitude': lon,
+                'current': 'temperature_2m,wind_speed_10m,weather_code'
+            }
         ).json()
 
-        temp = meteo['current']['temperature_2m']
-        vent = meteo['current']['wind_speed_10m']
-        code = meteo['current']['weather_code']
+        current = meteo.get('current')
 
-        # Traduction du code météo en texte lisible
+        if not current:
+            return jsonify({'erreur': 'Données météo indisponibles'}), 500
+
+        temp = current.get('temperature_2m')
+        vent = current.get('wind_speed_10m')
+        code = current.get('weather_code')
+
         conditions = {
             0: 'Ciel dégagé', 1: 'Principalement dégagé', 2: 'Partiellement nuageux',
             3: 'Couvert', 45: 'Brouillard', 48: 'Brouillard givrant',
@@ -55,16 +60,16 @@ def get_meteo():
             80: 'Averses légères', 81: 'Averses modérées', 82: 'Averses fortes',
             95: 'Orage', 96: 'Orage avec grêle', 99: 'Orage violent'
         }
-        condition = conditions.get(code, f'Code {code}')
 
         return jsonify({
-            'ville':       nom,
-            'temperature': round(temp, 1),
-            'vent':        round(vent, 1),
-            'condition':   condition
+            'ville': nom,
+            'temperature': round(temp, 1) if temp else None,
+            'vent': round(vent, 1) if vent else None,
+            'condition': conditions.get(code, 'Inconnu')
         })
 
     except Exception as e:
+        print("ERREUR METEO:", e)
         return jsonify({'erreur': str(e)}), 500
 
 
