@@ -4,6 +4,8 @@
 
 const API = 'https://my-panel-tools.onrender.com/api'
 
+console.log("API utilisée :", API)
+
 // ============================================================
 //  SYSTÈME DE POPUPS
 // ============================================================
