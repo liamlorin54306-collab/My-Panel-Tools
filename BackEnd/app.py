@@ -44,8 +44,8 @@ def get_meteo():
             return jsonify({'erreur': 'Données météo indisponibles'}), 500
 
         temp = current.get('temperature_2m') or current.get('temperature')
-vent = current.get('wind_speed_10m') or current.get('windspeed')
-code = current.get('weather_code') or current.get('weathercode')
+        vent = current.get('wind_speed_10m') or current.get('windspeed')
+        code = current.get('weather_code') or current.get('weathercode')
 
         conditions = {
             0: 'Ciel dégagé',
