@@ -34,16 +34,12 @@ def get_meteo():
         nom = geo['results'][0]['name']
 
         meteo = requests.get(
-            'https://api.open-meteo.com/v1/forecast',
-            params={
-                'latitude': lat,
-                'longitude': lon,
-                'current': 'temperature_2m,wind_speed_10m,weather_code'
-            }
+            f'https://api.open-meteo.com/v1/forecast'
+            f'?latitude={lat}&longitude={lon}'
+            f'&current=temperature_2m,wind_speed_10m,weather_code'
         ).json()
 
         current = meteo.get('current')
-
         if not current:
             return jsonify({'erreur': 'Données météo indisponibles'}), 500
 
@@ -52,26 +48,29 @@ def get_meteo():
         code = current.get('weather_code')
 
         conditions = {
-            0: 'Ciel dégagé', 1: 'Principalement dégagé', 2: 'Partiellement nuageux',
-            3: 'Couvert', 45: 'Brouillard', 48: 'Brouillard givrant',
-            51: 'Bruine légère', 53: 'Bruine modérée', 55: 'Bruine dense',
-            61: 'Pluie légère', 63: 'Pluie modérée', 65: 'Pluie forte',
-            71: 'Neige légère', 73: 'Neige modérée', 75: 'Neige forte',
-            80: 'Averses légères', 81: 'Averses modérées', 82: 'Averses fortes',
-            95: 'Orage', 96: 'Orage avec grêle', 99: 'Orage violent'
+            0: 'Ciel dégagé',
+            1: 'Principalement dégagé',
+            2: 'Partiellement nuageux',
+            3: 'Couvert',
+            45: 'Brouillard',
+            61: 'Pluie légère',
+            63: 'Pluie modérée',
+            65: 'Pluie forte',
+            71: 'Neige légère',
+            80: 'Averses',
+            95: 'Orage'
         }
 
         return jsonify({
             'ville': nom,
-            'temperature': round(temp, 1) if temp else None,
-            'vent': round(vent, 1) if vent else None,
-            'condition': conditions.get(code, 'Inconnu')
+            'temperature': temp,
+            'vent': vent,
+            'condition': conditions.get(code, 'Météo inconnue')
         })
 
     except Exception as e:
         print("ERREUR METEO:", e)
         return jsonify({'erreur': str(e)}), 500
-
 
 # ============================================================
 #  ROUTE : MINI IA
