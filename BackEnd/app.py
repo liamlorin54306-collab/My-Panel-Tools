@@ -195,17 +195,18 @@ def get_recherche():
 
 
 
-# Sert le dashboard quand on arrive sur la page principale
 @app.route("/")
 def home():
-    return send_from_directory('FrontEnd', 'index.html')
+    return send_from_directory(FRONTEND_DIR, 'index.html')
 
-# Sert les fichiers CSS et JS automatiquement
 @app.route("/<path:filename>")
-def FrontEnd_files(filename):
-    return send_from_directory('FrontEnd', filename)
+def frontend_files(filename):
+    return send_from_directory(FRONTEND_DIR, filename)
 
 
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_DIR = os.path.join(BASE_DIR, '..', 'FrontEnd')
 
 # ============================================================
 #  LANCEMENT
