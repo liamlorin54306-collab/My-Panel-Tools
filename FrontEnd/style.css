@@ -16,7 +16,7 @@ body {
 /* LOSANGE MODERNE (aplati) */
 .losange {
     width: 180px;
-    height: 120px;
+    height: 180px;
     background: #3498db;
     transform: rotate(45deg);
     display: flex;
