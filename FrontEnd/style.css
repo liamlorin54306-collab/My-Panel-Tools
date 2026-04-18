@@ -1,85 +1,160 @@
-/* ===== RESET ===== */
+/* ===== BASE ===== */
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: #f5f7fa;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color: white;
 }
 
 /* ===== HEADER ===== */
 .header {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin: 50px 0;
 }
 
-/* LOSANGE MODERNE (aplati) */
+/* LOSANGE FUTURISTE */
 .losange {
-    width: 180px;
-    height: 180px;
-    background: #3498db;
+    width: 200px;
+    height: 200px;
+    background: rgba(52, 152, 219, 0.15);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(52,152,219,0.4);
     transform: rotate(45deg);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 30px;
+
+    box-shadow:
+        0 0 20px rgba(52,152,219,0.5),
+        inset 0 0 15px rgba(52,152,219,0.2);
 }
 
 .losange span {
     transform: rotate(-45deg);
-    color: white;
     font-weight: 700;
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
+    color: #8bd3ff;
+    text-shadow: 0 0 10px #3498db;
 }
 
-/* ===== DASHBOARD GRID ===== */
+/* ===== GRID ===== */
 .dashboard {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 25px;
+    max-width: 1100px;
     margin: auto;
     padding: 20px;
 }
 
-/* ===== CARDS ===== */
+/* ===== CARDS FUTURISTES ===== */
 .card {
-    background: white;
-    border-radius: 20px;
+    position: relative;
     padding: 25px;
     text-align: center;
-    font-weight: 600;
+    border-radius: 20px;
     cursor: pointer;
 
-    /* Effet moderne */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    transition: all 0.2s ease;
+    /* glass */
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    transition: all 0.25s ease;
+
+    /* glow léger */
+    box-shadow:
+        0 0 10px rgba(52,152,219,0.2),
+        inset 0 0 10px rgba(52,152,219,0.1);
 }
 
-/* Hover stylé */
+/* effet hover */
 .card:hover {
-    transform: translateY(-5px);
-    background: #3498db;
-    color: white;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    transform: translateY(-6px) scale(1.02);
+
+    border: 1px solid rgba(52,152,219,0.6);
+
+    box-shadow:
+        0 0 25px rgba(52,152,219,0.6),
+        inset 0 0 15px rgba(52,152,219,0.2);
+
+    color: #8bd3ff;
 }
 
-/* ========= MOBILE ========= */
+/* ligne lumineuse animée */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: linear-gradient(120deg, transparent, rgba(52,152,219,0.5), transparent);
+    opacity: 0;
+    transition: 0.3s;
+}
 
+.card:hover::before {
+    opacity: 1;
+    animation: scan 2s linear infinite;
+}
+
+/* animation scan futuriste */
+@keyframes scan {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ===== POPUPS UPGRADE ===== */
+.popup {
+    background: rgba(10, 20, 40, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(52,152,219,0.4);
+    box-shadow: 0 0 30px rgba(52,152,219,0.3);
+    color: white;
+}
+
+/* inputs futuristes */
+.popup input,
+.popup select,
+.popup textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+}
+
+.popup input:focus,
+.popup select:focus,
+.popup textarea:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 10px #3498db;
+}
+
+/* boutons */
+.popup button {
+    background: rgba(52,152,219,0.2);
+    border: 1px solid rgba(52,152,219,0.4);
+    color: #8bd3ff;
+}
+
+.popup button:hover {
+    background: rgba(52,152,219,0.4);
+    box-shadow: 0 0 10px #3498db;
+}
+
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
+    .losange {
+        width: 150px;
+        height: 100px;
+    }
 
     .dashboard {
-        grid-template-columns: 1fr;
-        padding: 15px;
-    }
-
-    .losange {
-        width: 120px;
-        height: 120px;
+        gap: 15px;
     }
 }
-
 /*========== OVERLAY ==========*/
 
 .overlay {
