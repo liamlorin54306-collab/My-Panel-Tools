@@ -1,53 +1,68 @@
-/* ========= CONTAINER GLOBAL ========= */
-
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    padding: 40px;
-    max-width: 1200px;
-    margin: auto;
+/* ===== RESET ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7fa;
 }
 
-/* ========= BLOCS (remplace tous tes .To-Do_List etc) ========= */
-
-.dashboard h2 {
-    border: solid 4px black;
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.2s;
-    background: white;
+/* ===== HEADER ===== */
+.header {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
-/* Hover */
-.dashboard h2:hover {
-    background: #3498db;
-    color: white;
-    border-color: #3498db;
-}
-
-/* ========= TITRE (losange centré correctement) ========= */
-
+/* LOSANGE MODERNE (aplati) */
 .losange {
-    grid-column: span 3;
-    margin: 20px auto;
-    border-radius: 30px;
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 120px;
     background: #3498db;
     transform: rotate(45deg);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    border-radius: 30px;
 }
 
 .losange span {
     transform: rotate(-45deg);
     color: white;
-    font-weight: bold;
+    font-weight: 700;
     text-align: center;
+    font-size: 16px;
+}
+
+/* ===== DASHBOARD GRID ===== */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* ===== CARDS ===== */
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    font-weight: 600;
+    cursor: pointer;
+
+    /* Effet moderne */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+}
+
+/* Hover stylé */
+.card:hover {
+    transform: translateY(-5px);
+    background: #3498db;
+    color: white;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
 }
 
 /* ========= MOBILE ========= */
