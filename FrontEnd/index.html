@@ -8,23 +8,24 @@
 </head>
 <body>
 
-<!-- ===== ÉTIQUETTES CLIQUABLES ===== -->
-<div class="etiquette To-Do_List"               onclick="ouvrirPopup('popup-todo')">To-Do List</div>
-<div class="etiquette Minuteur"                 onclick="ouvrirPopup('popup-minuteur')">Minuteur</div>
-<div class="etiquette Meteo"                    onclick="ouvrirPopup('popup-meteo')">Météo</div>
-<div class="etiquette Convertisseur_De_Monnaie" onclick="ouvrirPopup('popup-convertisseur')">Convertisseur</div>
-<div class="etiquette Calculatrice"             onclick="ouvrirPopup('popup-calculatrice')">Calculatrice</div>
-<div class="etiquette Heure_Mondiale"           onclick="ouvrirPopup('popup-horloge')">Heure Mondiale</div>
-<div class="etiquette Moteur_Recherche"         onclick="ouvrirPopup('popup-recherche')">Moteur Recherche</div>
-<div class="etiquette IA"                       onclick="ouvrirPopup('popup-ia')">IA</div>
-<div class="etiquette Note_Rapide"              onclick="ouvrirPopup('popup-notes')">Note Rapide</div>
-<div class="etiquette Generateur_De_MDP"        onclick="ouvrirPopup('popup-mdp')">Générateur MDP</div>
+<div class="dashboard">
 
-<!-- ===== LOSANGE TITRE ===== -->
-<div class="losange">
-    <span>My Panel<br>Tools</span>
+    <div class="losange">
+        <span>My Panel<br>Tools</span>
+    </div>
+
+    <div class="etiquette" onclick="ouvrirPopup('popup-todo')">To-Do List</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-minuteur')">Minuteur</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-meteo')">Météo</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-convertisseur')">Convertisseur</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-calculatrice')">Calculatrice</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-horloge')">Heure Mondiale</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-recherche')">Moteur Recherche</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-ia')">IA</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-notes')">Note Rapide</div>
+    <div class="etiquette" onclick="ouvrirPopup('popup-mdp')">Générateur MDP</div>
+
 </div>
-
 <!-- ===== FOND SOMBRE ===== -->
 <div class="overlay" id="overlay" onclick="fermerTout()"></div>
 
