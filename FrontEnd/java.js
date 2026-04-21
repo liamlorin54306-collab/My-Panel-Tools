@@ -542,6 +542,8 @@ async function traduireTexte() {
     el.value = 'Traduction en cours...'
 
     try {
+        // Détecter la langue source (fr par défaut)
+        const de = 'fr'
         const langPair = `${de}|${vers}`
         const res = await fetch(
             `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texte)}&langpair=${langPair}`
