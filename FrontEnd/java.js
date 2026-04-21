@@ -177,24 +177,42 @@ async function convertirArgent() {
 }
 
 // ============================================================
-//  MÉTÉO — via Flask → Open-Meteo (gratuit)
+//  MÉTÉO — Open-Meteo (gratuit, sans clé API)
 // ============================================================
 
-async function chargerMeteo() {
-    const ville = document.getElementById('meteo-ville').value.trim() || 'Paris'
-    document.getElementById('meteo-temp').textContent = '...'
-    document.getElementById('meteo-condition').textContent = ''
-    document.getElementById('meteo-vent').textContent = ''
-
-    const data = await apiFetch(`${API}/meteo?ville=${encodeURIComponent(ville)}`)
-
-    if (data && !data.erreur) {
-        document.getElementById('meteo-temp').textContent      = `${data.temperature}°C`
-        document.getElementById('meteo-condition').textContent = data.condition
-        document.getElementById('meteo-vent').textContent      = `Vent : ${data.vent} km/h`
-    } else {
-        document.getElementById('meteo-temp').textContent = 'Ville introuvable'
+// Conversion des codes météo Open-Meteo en français
+function getDescriptionMeteo(code) {
+    const descriptions = {
+        0: 'Ciel dégagé',
+        1: 'Essentiellement dégagé',
+        2: 'Partiellement nuageux',
+        3: 'Couvert',
+        45: 'Brouillard',
+        48: 'Brouillard givrant',
+        51: 'Bruine légère',
+        53: 'Bruine modérée',
+        55: 'Bruine dense',
+        56: 'Bruine verglaçante légère',
+        57: 'Bruine verglaçante dense',
+        61: 'Pluie légère',
+        63: 'Pluie modérée',
+        65: 'Pluie forte',
+        66: 'Pluie verglaçante légère',
+        67: 'Pluie verglaçante forte',
+        71: 'Neige légère',
+        73: 'Neige modérée',
+        75: 'Neige forte',
+        77: 'Grains de neige',
+        80: 'Averses de pluie légères',
+        81: 'Averses de pluie modérées',
+        82: 'Averses de pluie violentes',
+        85: 'Averses de neige légères',
+        86: 'Averses de neige fortes',
+        95: 'Orage',
+        96: 'Orage avec grêle légère',
+        99: 'Orage avec grêle forte'
     }
+    return descriptions[code] || `Code météo: ${code}`
 }
 
 async function chargerMeteo() {
@@ -203,7 +221,7 @@ async function chargerMeteo() {
     document.getElementById('meteo-temp').textContent = '...'
 
     try {
-        // 1. GEO
+        // 1. Géocodage
         const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${ville}&count=1&language=fr`)
         const geo = await geoRes.json()
 
@@ -215,7 +233,7 @@ async function chargerMeteo() {
         const lat = geo.results[0].latitude
         const lon = geo.results[0].longitude
 
-        // 2. METEO
+        // 2. Météo actuelle
         const meteoRes = await fetch(
             `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
         )
@@ -223,9 +241,10 @@ async function chargerMeteo() {
 
         const temp = meteo.current_weather.temperature
         const vent = meteo.current_weather.windspeed
+        const code = meteo.current_weather.weathercode
 
         document.getElementById('meteo-temp').textContent = `${temp}°C`
-        document.getElementById('meteo-condition').textContent = 'Temps actuel'
+        document.getElementById('meteo-condition').textContent = getDescriptionMeteo(code)
         document.getElementById('meteo-vent').textContent = `Vent : ${vent} km/h`
 
     } catch {
@@ -506,6 +525,42 @@ function calcReset() {
 }
 
 // ============================================================
+// TRADUCTEUR — via MyMemory API (gratuit, sans clé)
+// ============================================================
+
+async function traduireTexte() {
+    const texte = document.getElementById('traducteur-texte').value.trim()
+    const select = document.getElementById('traducteur-langue')
+    const vers  = select.value
+    const el    = document.getElementById('traducteur-resultat')
+
+    if (!texte) {
+        el.value = 'Entrez un texte à traduire'
+        return
+    }
+
+    el.value = 'Traduction en cours...'
+
+    try {
+        // Détecter la langue source (fr par défaut)
+        const de = 'fr'
+        const langPair = `${de}|${vers}`
+        const res = await fetch(
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texte)}&langpair=${langPair}`
+        )
+        const data = await res.json()
+
+        if (data.responseStatus === 200 && data.responseData) {
+            el.value = data.responseData.translatedText
+        } else {
+            el.value = 'Erreur de traduction'
+        }
+    } catch (e) {
+        el.value = 'Erreur de connexion'
+    }
+}
+
+// ============================================================
 //  RACCOURCIS CLAVIER — Entrée dans les champs
 // ============================================================
 
@@ -518,6 +573,7 @@ document.addEventListener('keydown', e => {
     if (id === 'recherche-input') lancerRecherche()
     if (id === 'conv-montant')    convertirArgent()
     if (id === 'mesure-valeur')   convertirMesure()
+    if (id === 'traducteur-texte')    traduireTexte()
 })
 
 // ============================================================
