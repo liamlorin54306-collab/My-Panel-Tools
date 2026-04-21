@@ -3,7 +3,7 @@ body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background: radial-gradient(circle at top, #0f172a, #020617);
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 /* ===== HEADER ===== */
@@ -115,7 +115,7 @@ body {
     backdrop-filter: blur(20px);
     border: 1px solid rgba(52,152,219,0.4);
     box-shadow: 0 0 30px rgba(52,152,219,0.3);
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 /* inputs futuristes */
@@ -124,7 +124,7 @@ body {
 .popup textarea {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 .popup input:focus,
@@ -149,7 +149,7 @@ body {
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
     .losange {
-        width: 150px;
+        width: 100px;
         height: 100px;
     }
 
@@ -305,4 +305,14 @@ body {
     font-size: 18px;
     text-align: center;
     color: #8bd3ff;
+}
+
+/* ===== CHOIX DES OPTIONS ===== */
+option {
+    color: black;
+}
+
+optgroup {
+    color: #3498db;
+    font-weight: bold;
 }
