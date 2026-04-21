@@ -26,6 +26,7 @@
     <div class="card" onclick="ouvrirPopup('popup-ia')">IA</div>
     <div class="card" onclick="ouvrirPopup('popup-notes')">Notes</div>
     <div class="card" onclick="ouvrirPopup('popup-mdp')">MDP</div>
+    <div class="card" onclick="ouvrirPopup('popup-traducteur')">Traducteur</div>
 
 </div>
 <!-- ===== FOND SOMBRE ===== -->
@@ -203,6 +204,7 @@
     <div class="popup-body center">
         <select id="horloge-timezone" onchange="mettreAJourHorloge()" style="margin-bottom:14px;width:100%">
             <option value="Europe/Paris">Paris</option>
+            <option value="Europe/London">Londres</option>
             <option value="America/New_York">New York</option>
             <option value="America/Los_Angeles">Los Angeles</option>
             <option value="Asia/Tokyo">Tokyo</option>
@@ -283,6 +285,30 @@
         </div>
     </div>
 </div>
+
+<!-- ===== POPUP : TRADUCTEUR ===== -->
+<div class="popup" id="popup-traducteur">
+    <div class="popup-header">
+        <h2>Traducteur</h2>
+        <button class="fermer" onclick="fermerTout()">&#x2715;</button>
+    </div>
+    <div class="popup-body">
+        <textarea id="traducteur-texte" placeholder="Texte à traduire..." style="margin-bottom:8px"></textarea>
+        <div class="input-row">
+            <select id="traducteur-langue">
+                <option value="en">Anglais</option>
+                <option value="fr">Français</option>
+                <option value="es">Espagnol</option>
+                <option value="de">Allemand</option>
+                <option value="it">Italien</option>
+                <option value="pt">Portugais</option>
+                <option value="ru">Russe</option>
+                <option value="zh">Chinois</option>
+                <option value="ja">Japonais</option>
+            </select>
+            <button onclick="traduireTexte()" style="width:100%;margin-left:8px">Traduire</button>
+        </div>
+        <textarea id="traducteur-resultat" readonly placeholder="Traduction..." style="margin-top:8px"></textarea>
 
 <script src="java.js"></script>
 </body>
